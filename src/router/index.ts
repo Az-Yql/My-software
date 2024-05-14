@@ -100,7 +100,7 @@ const dynamicRoutes: RouteRecordRaw[] = [
             component: () => import("@/views/goods/list/index.vue"),
             name: "GoodsList",
             meta: {
-              title: "商品管理",
+              title: "商品列表",
               icon: "Menu",
               cache: false,
               hidden: false,
@@ -111,7 +111,7 @@ const dynamicRoutes: RouteRecordRaw[] = [
             component: () => import("@/views/goods/category/index.vue"),
             name: "GoodsCategory",
             meta: {
-              title: "商品管理",
+              title: "商品分类",
               icon: "Menu",
               cache: false,
               hidden: false,

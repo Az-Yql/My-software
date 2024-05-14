@@ -1,5 +1,5 @@
 <template>
-  <el-main style="background-color: green">
+  <el-main>
     <router-view></router-view>
   </el-main>
 </template>

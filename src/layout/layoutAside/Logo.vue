@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { useLayoutConfig } from "@/stores/layoutConfig.ts";
+const store = useLayoutConfig();
+</script>
+
 <template>
   <!-- logo -->
   <div class="layout-logo">
@@ -6,10 +11,8 @@
       src="http://vue3.mengxuegu.com/assets/logo-8ba32897.png"
       alt="logo"
     />
-    <span>积云-Vue3全家桶项目</span>
+    <span v-if="!store.isCollapse">积云-Vue3全家桶项目</span>
   </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped lang="scss"></style>

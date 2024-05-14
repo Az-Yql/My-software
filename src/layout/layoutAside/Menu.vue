@@ -1,5 +1,11 @@
+<script setup lang="ts">
+import { useLayoutConfig } from "@/stores/layoutConfig.ts";
+const store = useLayoutConfig();
+</script>
+
 <template>
   <el-menu
+    :collapse="store.isCollapse"
     active-text-color="#ffd04b"
     background-color="transparent"
     :default-active="$route.path"
@@ -52,7 +58,5 @@
     </el-menu-item>
   </el-menu>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped lang="scss"></style>
