@@ -1,12 +1,7 @@
-<script lang="ts" setup>
-import { getList } from "@/api/test";
-const handleClick = async () => {
-  const res = await getList();
-  console.log("res=>", res);
-};
-</script>
+<script lang="ts" setup name="Home"></script>
+
 <template>
-  <div @click="handleClick">index</div>
+  <div>home</div>
 </template>
 
 <style scoped lang="scss"></style>

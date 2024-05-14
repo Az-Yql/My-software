@@ -3,12 +3,13 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
+import vueSetupExtend from "vite-plugin-vue-setup-extend";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   return {
-    plugins: [vue(), vueJsx()],
+    plugins: [vue(), vueJsx(), vueSetupExtend()],
     base: "./",
     resolve: {
       alias: {
@@ -25,8 +26,7 @@ export default defineConfig(({ mode }) => {
       // 解决跨域
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target:
-            "https://mock.mengxuegu.com/mock/66384848cab9671f88bd2f1e/api",
+          target: "https://mock.apifox.com/m1/4458460-0-default",
           changeOrigin: true,
           // rewrite: (path) => path.replace(/`^${env.VITE_APP_BASE_API}`/, ""),
           rewrite: (path) =>

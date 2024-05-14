@@ -6,6 +6,11 @@ import {
 
 const dynamicRoutes: RouteRecordRaw[] = [
   {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login/index.vue"),
+  },
+  {
     path: "/",
     name: "Layout",
     component: () => import("@/layout/index.vue"),
@@ -21,7 +26,7 @@ const dynamicRoutes: RouteRecordRaw[] = [
           // 菜单图标
           icon: "Menu",
           // 页面是否需要缓存 false为不缓存 true缓存
-          cache: false,
+          cache: true,
           // 控制当前是否显示为菜单 false 为显示 true 为不显示
           hidden: false,
         },
