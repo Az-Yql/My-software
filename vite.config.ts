@@ -25,9 +25,12 @@ export default defineConfig(({ mode }) => {
       // 解决跨域
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: "http://localhost:7777",
+          target:
+            "https://mock.mengxuegu.com/mock/66384848cab9671f88bd2f1e/api",
           changeOrigin: true,
-          rewrite: (path) => path.replace(/`^${env.VITE_APP_BASE_API}`/, ""),
+          // rewrite: (path) => path.replace(/`^${env.VITE_APP_BASE_API}`/, ""),
+          rewrite: (path) =>
+            path.replace(new RegExp("^" + `${env.VITE_APP_BASE_API}`), ""),
         },
         // "/dev-api": {
         //   target: "http://localhost:7777",
