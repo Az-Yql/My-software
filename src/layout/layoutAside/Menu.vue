@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLayoutConfig } from "@/stores/layoutConfig.ts";
+import { useLayoutConfig } from "@/stores/layoutConfig";
 const store = useLayoutConfig();
 </script>
 

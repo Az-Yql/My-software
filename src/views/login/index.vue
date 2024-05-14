@@ -3,15 +3,21 @@ import type { FormInstance, FormRules } from "element-plus";
 import { reactive, ref } from "vue";
 import { Local } from "@/utils/storage";
 import { login } from "@/api/auth";
+import type { StateType } from "@/types/login";
 
+// router
 import { useRouter } from "vue-router";
 const router = useRouter();
+
+// store
+import { useAuthStore } from "@/stores/auth";
+const store = useAuthStore();
 
 // 表单实例
 const loginFormRef = ref<FormInstance>();
 
 // 表单数据
-const state = reactive({
+const state = reactive<StateType>({
   isRemember: Local.get("isRemember") || false,
   loginForm: {
     username: Local.get("username") || "",
@@ -52,24 +58,14 @@ const loginFormRules = reactive<FormRules<typeof state.loginForm>>({
 });
 
 // 登录方法
-const handleSubmit = () => {
+const handleSubmit = async () => {
   loginFormRef.value!.validate(async (valid: boolean) => {
     if (valid) {
       // 存储账号与密码
-      if (state.isRemember) {
-        Local.set("username", state.loginForm.username);
-        Local.set("password", state.loginForm.password);
-        Local.set("isRemember", state.isRemember);
-      } else {
-        Local.remove("username");
-        Local.remove("password");
-        Local.remove("isRemember");
-      }
+      store.setRememberPwd(state);
 
-      // 调用登录接口
-      const res = await login(state.loginForm);
-
-      // 存储token
+      // 调用pinia中定义的userlogin
+      await store.userLogin(state);
 
       // 跳转到主页
       router.push("/");

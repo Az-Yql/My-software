@@ -6,7 +6,7 @@
 // header 状态
 // aside 状态
 
-import { useLayoutConfig } from "@/stores/layoutConfig.ts";
+import { useLayoutConfig } from "@/stores/layoutConfig";
 import { onMounted, ref } from "vue";
 import {
   onBeforeRouteUpdate,

@@ -4,7 +4,7 @@ import { defineAsyncComponent } from "vue";
 const Logo = defineAsyncComponent(() => import("./Logo.vue"));
 const Menu = defineAsyncComponent(() => import("./Menu.vue"));
 
-import { useLayoutConfig } from "@/stores/layoutConfig.ts";
+import { useLayoutConfig } from "@/stores/layoutConfig";
 const store = useLayoutConfig();
 </script>
 <template>

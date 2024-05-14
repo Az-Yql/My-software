@@ -3,6 +3,9 @@ import { useRouter } from "vue-router";
 import { useFullscreen, useDark } from "@vueuse/core";
 const router = useRouter();
 
+import { useAuthStore } from "@/stores/auth";
+const store = useAuthStore();
+
 // isFullscreen 全屏状态 false 非  true 全屏
 const { isFullscreen, toggle } = useFullscreen();
 
@@ -19,8 +22,14 @@ const isDark = useDark({
 });
 
 // 退出登录
-const logout = () => {
-  alert("退出登录");
+const logout = async () => {
+  try {
+    await store.userLogout();
+    // 退出
+    // router.push("/login");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // 点击下拉菜单项触发的事件
@@ -57,13 +66,10 @@ const logout = () => {
     </div>
     <!-- 下拉菜单 -->
     <el-dropdown>
-      <span class="el-dropdown-link">
-        <el-avatar
-          :size="30"
-          src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
-        />
+      <span class="el-dropdown-link" v-if="store.user">
+        <el-avatar :size="30" :src="store.user?.imageUrl" />
 
-        <span class="username">张三</span>
+        <span class="username">{{ store.user?.username }}</span>
 
         <el-icon class="el-icon--right"><arrow-down /></el-icon>
       </span>

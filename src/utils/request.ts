@@ -9,6 +9,8 @@ import axios, {
   type AxiosRequestConfig,
 } from "axios";
 
+import { useAuthStore } from "@/stores/auth";
+
 // 创建axios实例对象
 const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -18,6 +20,11 @@ const service: AxiosInstance = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    const store = useAuthStore();
+    if (store.token) {
+      config.headers.Authorization = "Bearer " + store.token;
+    }
+
     return config;
   },
   (error: AxiosError) => {
