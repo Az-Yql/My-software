@@ -64,8 +64,8 @@ const handleAdd = (id: string) => {
 };
 
 // 编辑
-const handleEdit = () => {
-  dialogRef.value.openDrawer("edit", "编辑菜单");
+const handleEdit = (row: ResponseMenuListType) => {
+  dialogRef.value.openDrawer("edit", "编辑菜单", { row });
 };
 
 // 修改/新增成功之后的方法
@@ -140,7 +140,7 @@ const handleRefresh = () => {
             新增下级
           </el-button>
           <el-button
-            @click="handleEdit"
+            @click="handleEdit(scope.row)"
             type="warning"
             icon="Edit"
             link

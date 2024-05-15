@@ -2,14 +2,16 @@
 import type { MenuParamsType } from "@/api/types/menuType";
 import type { FormInstance } from "element-plus";
 import { ref } from "vue";
-import { selectMenu, addMenu } from "@/api/system/menu";
+import { selectMenu, addMenu, editMenu } from "@/api/system/menu";
 import { ElNotification } from "element-plus";
+import _ from "lodash";
 
 // 控制抽屉的状态
 const visible = ref(false);
 // 抽屉的标题
 const dialogTitle = ref("新增");
 // 弹窗的类型 tpye add 新增 edit 编辑
+
 const dialogType = ref<string>();
 
 // 抽屉表单数据
@@ -73,6 +75,7 @@ const props = {
   checkStrictly: true,
   value: "id",
   label: "title",
+  emitPath: false,
 };
 
 // 上级菜单数据
@@ -372,9 +375,10 @@ const submitData = async () => {
   try {
     if (dialogType.value === "add") {
       delete formData.value.code;
-      const res = await addMenu(formData.value);
+      await addMenu(formData.value);
     } else {
       // 编辑
+      await editMenu(formData.value);
     }
 
     ElNotification({
@@ -395,7 +399,6 @@ const submitData = async () => {
 const getSelectMenu = async () => {
   try {
     const res = await selectMenu();
-    console.log("Res=>", res);
     options.value = res.data;
   } catch (error) {
     console.log(error);
@@ -403,16 +406,16 @@ const getSelectMenu = async () => {
 };
 
 // 开启抽屉方法
-const openDrawer = (
-  type: string,
-  title: string,
-  data: { parentId: string }
-) => {
+const openDrawer = (type: string, title: string, data = {} as any) => {
   getSelectMenu();
   visible.value = true;
   dialogType.value = type;
   dialogTitle.value = title;
   formData.value.parentId = data.parentId;
+
+  if (type === "edit") {
+    formData.value = _.cloneDeep(data.row);
+  }
 };
 
 // 暴露子组件方法

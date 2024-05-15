@@ -47,3 +47,12 @@ export const addMenu = (menuParams: MenuParamsType) => {
 export const selectMenu = () => {
   return request<ResponseSelectMenuType>("system/menu/select", "GET");
 };
+
+/**
+ * 编辑菜单接口
+ * @param menuParams
+ * @returns
+ */
+export const editMenu = (menuParams: MenuParamsType) => {
+  return request("/system/menu", "PUT", menuParams);
+};

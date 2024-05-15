@@ -78,52 +78,6 @@ export type DatumMeta = {
 };
 
 /**
- * 新增菜单的参数类型
- */
-export type MenuParamsType = {
-  /**
-   * 组件路径
-   */
-  component: string;
-  /**
-   * 路由信息
-   */
-  meta: Meta;
-  /**
-   * 路由名称
-   */
-  name: string;
-  /**
-   * 上级菜单
-   */
-  parentId: string;
-  /**
-   * 路由地址
-   */
-  path: string;
-  /**
-   * 重定向
-   */
-  redirect: string;
-  /**
-   * 备注
-   */
-  remark: string;
-  /**
-   * 排序
-   */
-  sort: number;
-  /**
-   * 菜单类型
-   */
-  type: string;
-  /**
-   * 权限标识
-   */
-  code?: string;
-};
-
-/**
  * 路由信息
  */
 export type Meta = {
@@ -164,4 +118,54 @@ export type Child = {
   id: string;
   parentId: string;
   title: string;
+};
+
+/**
+ * 新增菜单的参数类型
+ */
+export type MenuParamsType = {
+  createTime?: string;
+  updateTime?: string;
+  id?: string;
+  children?: string[];
+  /**
+   * 组件路径
+   */
+  component: string;
+  /**
+   * 路由信息
+   */
+  meta: Meta;
+  /**
+   * 路由名称
+   */
+  name: string;
+  /**
+   * 上级菜单
+   */
+  parentId: string;
+  /**
+   * 路由地址
+   */
+  path: string;
+  /**
+   * 重定向
+   */
+  redirect: string;
+  /**
+   * 备注
+   */
+  remark: string;
+  /**
+   * 排序
+   */
+  sort: number;
+  /**
+   * 菜单类型
+   */
+  type: string;
+  /**
+   * 权限标识
+   */
+  code?: string;
 };
