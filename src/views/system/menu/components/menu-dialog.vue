@@ -7,7 +7,7 @@ import { ElNotification } from "element-plus";
 import _ from "lodash";
 
 // 控制抽屉的状态
-const visible = ref(false);
+const visible = ref<boolean>(false);
 // 抽屉的标题
 const dialogTitle = ref("新增");
 // 弹窗的类型 tpye add 新增 edit 编辑

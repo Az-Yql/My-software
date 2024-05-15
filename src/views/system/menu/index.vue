@@ -21,7 +21,6 @@ const searchFormKey = ref({
 const initMenuList = async () => {
   try {
     const res = await getMenuList(searchFormKey.value);
-    console.log("res", res);
     menuList.value = res.data;
   } catch (e) {
     console.log(e);
@@ -89,7 +88,7 @@ const handleRefresh = () => {
         <el-button type="primary" icon="search" @click="initMenuList"
           >查询</el-button
         >
-        <el-button type="success" icon="plus" @click="handleAdd"
+        <el-button type="success" icon="plus" @click="handleAdd('')"
           >新增菜单</el-button
         >
       </el-form-item>
@@ -101,7 +100,6 @@ const handleRefresh = () => {
       style="width: 100%; margin-bottom: 20px"
       row-key="id"
       border
-      default-expand-all
     >
       <el-table-column align="center" label="菜单名称">
         <template #default="{ row }">

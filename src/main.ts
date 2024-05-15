@@ -15,6 +15,4 @@ app.use(setRegisterGlobal);
 app.use(pinia);
 app.use(router);
 
-console.log("import.meta.env.BASE_URL", import.meta.env.BASE_URL);
-
 app.mount("#app");
