@@ -1,10 +1,14 @@
 <script lang="ts" setup>
+import { addRole, editRole } from "@/api/system/role";
 import type { AddRoleParamsType } from "@/api/types/roleType";
 import type { FormInstance, FormRules } from "element-plus";
-import { reactive, ref } from "vue";
+import { reactive, ref, nextTick } from "vue";
+import { ElNotification } from "element-plus";
+import _ from "lodash";
 
 const dialogFormVisible = ref<boolean>(false);
 const dialogTitle = ref<string>();
+const dialogType = ref<string>();
 const dialogForm = ref<AddRoleParamsType>({
   roleCode: "",
   roleName: "",
@@ -39,25 +43,76 @@ const dialogFormRef = ref<FormInstance>();
 const handleSubmit = () => {
   dialogFormRef.value?.validate((valid: boolean) => {
     if (valid) {
-      alert("123");
+      submitData();
     }
   });
 };
 
+const emits = defineEmits(["refresh"]);
+
+// 提交数据方法
+const submitData = async () => {
+  try {
+    if (dialogType.value === "add") {
+      await addRole(dialogForm.value);
+    } else if (dialogType.value === "edit") {
+      // 编辑
+      await editRole(dialogForm.value);
+    }
+
+    dialogFormVisible.value = false;
+
+    ElNotification({
+      title: "操作成功",
+      type: "success",
+    });
+
+    emits("refresh");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // 打开弹窗方法
-const openDialog = (title: string = "新增角色") => {
+const openDialog = (
+  type: string,
+  title: string = "新增角色",
+  data = {} as any
+) => {
   dialogFormVisible.value = true;
   dialogTitle.value = title;
+  dialogType.value = type;
+
+  if (type === "edit") {
+    nextTick(() => {
+      dialogForm.value = _.cloneDeep(data.row);
+    });
+  }
 };
 
 // 暴露子组件方法给父组件
 defineExpose({
   openDialog,
 });
+
+// 关闭的回调
+const handleClose = () => {
+  dialogFormRef.value?.resetFields();
+
+  dialogFormVisible.value = false;
+};
 </script>
 
 <template>
-  <el-dialog center v-model="dialogFormVisible" title="新增角色" width="520px">
+  <el-dialog
+    center
+    v-model="dialogFormVisible"
+    :title="dialogTitle"
+    width="520px"
+    destroy-on-close
+    :before-close="handleClose"
+    :close-on-click-modal="false"
+  >
     <el-form
       :rules="dialogFormrules"
       :model="dialogForm"
@@ -100,7 +155,7 @@ defineExpose({
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button @click="handleClose">取消</el-button>
         <el-button type="primary" @click="handleSubmit"> 确定 </el-button>
       </div>
     </template>

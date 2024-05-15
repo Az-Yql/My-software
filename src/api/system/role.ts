@@ -39,3 +39,12 @@ export const delRole = (id: number) => {
 export const addRole = (roleParams: AddRoleParamsType) => {
   return request("/system/role", "POST", roleParams);
 };
+
+/**
+ * 修改角色
+ * @param roleParams
+ * @returns
+ */
+export const editRole = (roleParams: AddRoleParamsType) => {
+  return request("/system/role", "PUT", roleParams);
+};

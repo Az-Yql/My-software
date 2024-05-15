@@ -6,6 +6,9 @@ import { delRole, getRoleList } from "@/api/system/role";
 const RoleDialog = defineAsyncComponent(
   () => import("./components/role-dialog.vue")
 );
+const RolePermission = defineAsyncComponent(
+  () => import("./components/permission.vue")
+);
 
 // 保存请求到的角色列表
 const roleList = ref<Record[]>([]);
@@ -53,6 +56,28 @@ const handleDelete = async (id: number) => {
     console.log(error);
   }
 };
+
+const roleDialogRef = ref<InstanceType<typeof RoleDialog>>();
+
+// 新增
+const handleAdd = () => {
+  roleDialogRef.value!.openDialog("add", "新增角色");
+};
+
+// 编辑
+const handleEdit = (row: Record) => {
+  roleDialogRef.value!.openDialog("edit", "编辑角色", { row });
+};
+
+const handleRefresh = () => {
+  initRoleList();
+};
+
+const rolePermisssionRef = ref<InstanceType<typeof RolePermission>>();
+
+const handlePermission = (row: Record) => {
+  rolePermisssionRef.value!.openDrawer(`分配【${row.roleName}】的权限`);
+};
 </script>
 
 <template>
@@ -70,7 +95,9 @@ const handleDelete = async (id: number) => {
         <el-button type="primary" icon="search" @click="initRoleList"
           >查询</el-button
         >
-        <el-button type="success" icon="plus">新增角色</el-button>
+        <el-button type="success" icon="plus" @click="handleAdd"
+          >新增角色</el-button
+        >
       </el-form-item>
     </el-form>
 
@@ -89,8 +116,22 @@ const handleDelete = async (id: number) => {
       <el-table-column align="center" prop="remark" label="备注" />
       <el-table-column align="center" width="260" label="操作">
         <template #default="scope">
-          <el-button link icon="edit" type="primary"> 分配权限 </el-button>
-          <el-button link icon="edit" type="warning"> 修改 </el-button>
+          <el-button
+            link
+            icon="edit"
+            type="primary"
+            @click="handlePermission(scope.row)"
+          >
+            分配权限
+          </el-button>
+          <el-button
+            link
+            icon="edit"
+            type="warning"
+            @click="handleEdit(scope.row)"
+          >
+            修改
+          </el-button>
           <el-popconfirm
             width="220"
             confirm-button-text="确定"
@@ -121,7 +162,10 @@ const handleDelete = async (id: number) => {
     </el-row>
 
     <!-- 新增与标记弹窗 -->
-    <role-dialog></role-dialog>
+    <role-dialog ref="roleDialogRef" @refresh="handleRefresh"></role-dialog>
+
+    <!-- 分配权限 -->
+    <role-permission ref="rolePermisssionRef"></role-permission>
   </div>
 </template>
 

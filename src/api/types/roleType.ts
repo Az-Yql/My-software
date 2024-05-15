@@ -32,6 +32,9 @@ export type Record = {
 
 // 定义新增角色参数类型
 export type AddRoleParamsType = {
+  updateTime?: string;
+  id?: number | string;
+  createTime?: string;
   /**
    * 备注
    */

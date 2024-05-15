@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MenuParamsType } from "@/api/types/menuType";
 import type { FormInstance } from "element-plus";
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import { selectMenu, addMenu, editMenu } from "@/api/system/menu";
 import { ElNotification } from "element-plus";
 import _ from "lodash";
@@ -414,7 +414,9 @@ const openDrawer = (type: string, title: string, data = {} as any) => {
   formData.value.parentId = data.parentId;
 
   if (type === "edit") {
-    formData.value = _.cloneDeep(data.row);
+    nextTick(() => {
+      formData.value = _.cloneDeep(data.row);
+    });
   }
 };
 
