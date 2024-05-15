@@ -117,6 +117,10 @@ export type MenuParamsType = {
    * 菜单类型
    */
   type: string;
+  /**
+   * 权限标识
+   */
+  code?: string;
 };
 
 /**
@@ -139,5 +143,25 @@ export type Meta = {
    * 菜单名称
    */
   title: string;
-  [property: string]: any;
+};
+
+// 选择菜单接口返回的数据类型
+export type ResponseSelectMenuType = {
+  code: number;
+  data: Datum[];
+  message: string;
+};
+
+export type Datum = {
+  children: Child[];
+  id: string;
+  parentId: null;
+  title: string;
+};
+
+export type Child = {
+  children: string[];
+  id: string;
+  parentId: string;
+  title: string;
 };

@@ -5,6 +5,7 @@ import request from "@/utils/request";
 import type {
   MenuParamsType,
   ResponseMenuListType,
+  ResponseSelectMenuType,
   SearchParamsType,
 } from "../types/menuType";
 
@@ -37,4 +38,12 @@ export const delMenu = (id: number | string) => {
  */
 export const addMenu = (menuParams: MenuParamsType) => {
   return request(`/system/menu`, "POST", menuParams);
+};
+
+/**
+ * 选择菜单接口
+ * @returns
+ */
+export const selectMenu = () => {
+  return request<ResponseSelectMenuType>("system/menu/select", "GET");
 };

@@ -1,8 +1,14 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, defineAsyncComponent } from "vue";
 import type { ResponseMenuListType } from "@/api/types/menuType";
 import { delMenu, getMenuList } from "@/api/system/menu";
 import { ElNotification } from "element-plus";
+
+// 异步加载组件
+const menuDialog = defineAsyncComponent(
+  () => import("./components/menu-dialog.vue")
+);
+
 // 保存后台返回的菜单列表数据
 const menuList = ref<ResponseMenuListType[]>([]);
 
@@ -48,6 +54,24 @@ const handleDelete = async (row: ResponseMenuListType) => {
     console.log(error);
   }
 };
+
+// dialog抽屉实例
+const dialogRef = ref();
+
+// 新增
+const handleAdd = (id: string) => {
+  dialogRef.value.openDrawer("add", "新增菜单", { parentId: id });
+};
+
+// 编辑
+const handleEdit = () => {
+  dialogRef.value.openDrawer("edit", "编辑菜单");
+};
+
+// 修改/新增成功之后的方法
+const handleRefresh = () => {
+  initMenuList();
+};
 </script>
 
 <template>
@@ -65,7 +89,9 @@ const handleDelete = async (row: ResponseMenuListType) => {
         <el-button type="primary" icon="search" @click="initMenuList"
           >查询</el-button
         >
-        <el-button type="success" icon="plus">新增菜单</el-button>
+        <el-button type="success" icon="plus" @click="handleAdd"
+          >新增菜单</el-button
+        >
       </el-form-item>
     </el-form>
 
@@ -104,10 +130,22 @@ const handleDelete = async (row: ResponseMenuListType) => {
       <el-table-column align="center" prop="sort" label="排序" />
       <el-table-column align="center" label="操作" width="240">
         <template #default="scope">
-          <el-button type="primary" icon="Plus" link size="small">
+          <el-button
+            @click="handleAdd(scope.row.id)"
+            type="primary"
+            icon="Plus"
+            link
+            size="small"
+          >
             新增下级
           </el-button>
-          <el-button type="warning" icon="Edit" link size="small">
+          <el-button
+            @click="handleEdit"
+            type="warning"
+            icon="Edit"
+            link
+            size="small"
+          >
             修改
           </el-button>
           <el-popconfirm
@@ -132,6 +170,9 @@ const handleDelete = async (row: ResponseMenuListType) => {
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 弹窗 -->
+    <menu-dialog ref="dialogRef" @refresh="handleRefresh"></menu-dialog>
   </div>
 </template>
 
