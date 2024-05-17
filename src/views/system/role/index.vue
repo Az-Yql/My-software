@@ -76,7 +76,7 @@ const handleRefresh = () => {
 const rolePermisssionRef = ref<InstanceType<typeof RolePermission>>();
 
 const handlePermission = (row: Record) => {
-  rolePermisssionRef.value!.openDrawer(`分配【${row.roleName}】的权限`);
+  rolePermisssionRef.value!.openDrawer(`分配【${row.roleName}】的权限`, row.id);
 };
 </script>
 
