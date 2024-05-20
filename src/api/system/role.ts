@@ -14,7 +14,7 @@ import type {
  * @param roleParams
  * @returns
  */
-export const getRoleList = (roleParams: RoleParamsType) => {
+export const getRoleList = (roleParams?: RoleParamsType) => {
   return request<ResponseRoleListType>(
     "/system/role/search",
     "POST",

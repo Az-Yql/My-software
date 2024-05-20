@@ -144,7 +144,7 @@ const handleSubmit = async () => {
 <template>
   <el-drawer
     v-model="visible"
-    :title="`${drawerTitle}`"
+    title="分配【售前客服】的权限"
     direction="rtl"
     :before-close="handleClose"
     size="400px"

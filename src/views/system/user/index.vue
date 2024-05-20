@@ -1,7 +1,20 @@
 <script lang="ts" setup>
-import { getUserList } from "@/api/system/user";
+import { delUser, getUserList } from "@/api/system/user";
 import { ref } from "vue";
 import type { Record } from "@/api/types/userType";
+import { ElNotification } from "element-plus";
+import { defineAsyncComponent } from "vue";
+// import {} from "./components/pass-dialog.vue";
+
+const userDialog = defineAsyncComponent(
+  () => import("./components/user-dialog.vue")
+);
+
+const passDialog = defineAsyncComponent(
+  () => import("./components/pass-dialog.vue")
+);
+
+const dialogRef = ref<InstanceType<typeof userDialog>>();
 
 // 页码
 const current = ref<number>(1);
@@ -54,7 +67,33 @@ const handleSearch = () => {
 
 // 新增用户
 const handleAdd = () => {
-  alert("aaa");
+  dialogRef.value?.openDialog("add", "新增用户");
+};
+
+// 编辑用户
+const handleEdit = (row: Record) => {
+  dialogRef.value?.openDialog("edit", "编辑用户", { row });
+};
+
+// 删除用户
+const handleDelete = async (id: number) => {
+  try {
+    await delUser(id);
+
+    ElNotification({
+      title: "删除成功!",
+      type: "success",
+    });
+
+    initUserList();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const passDialogRef = ref<InstanceType<typeof passDialog>>();
+const resetPassword = (row: Record) => {
+  passDialogRef.value?.openDialog(`重置密码[${row.nickName}]`, row.id);
 };
 </script>
 
@@ -115,9 +154,23 @@ const handleAdd = () => {
       />
       <el-table-column align="center" label="操作" width="260px">
         <template #default="{ row }">
-          <el-button icon="key" link type="primary">密码重置</el-button>
-          <el-button icon="edit" link type="warning">修改</el-button>
-          <el-button icon="delete" link type="danger">删除</el-button>
+          <el-button icon="key" link type="primary" @click="resetPassword(row)"
+            >密码重置</el-button
+          >
+          <el-button icon="edit" link type="warning" @click="handleEdit(row)"
+            >修改</el-button
+          >
+          <el-popconfirm
+            width="220"
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            :title="`确定要永久删除【${row.nickName}】吗?`"
+            @confirm="handleDelete(row.id)"
+          >
+            <template #reference>
+              <el-button icon="delete" link type="danger">删除</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -137,8 +190,10 @@ const handleAdd = () => {
     </el-row>
 
     <!-- 新增与编辑弹窗 -->
+    <user-dialog ref="dialogRef" @refresh="initUserList"></user-dialog>
 
     <!-- 修改密码弹窗 -->
+    <pass-dialog ref="passDialogRef"></pass-dialog>
   </div>
 </template>
 

@@ -22,7 +22,6 @@
  *
  */
 
-
 // import router from "./router";
 // import { useAuthStore } from "./stores/auth";
 // const whiteList = ["/login"];
