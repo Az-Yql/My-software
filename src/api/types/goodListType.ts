@@ -61,9 +61,10 @@ export type StatusParamsType = {
 };
 
 export type AddGoodParamsType = {
+  id?: number;
   address: string;
   brand: string;
-  categoryId: number;
+  categoryId: number | string;
   code: string;
   cost: number;
   discountPrice: number;
@@ -79,4 +80,5 @@ export type AddGoodParamsType = {
   status: number;
   stockNum: number;
   unitName: string;
+  updateTime?: string;
 };

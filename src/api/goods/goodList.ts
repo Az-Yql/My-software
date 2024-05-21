@@ -50,5 +50,14 @@ export const findGood = (code: number) => {
  * @returns
  */
 export const addGood = (goodParams: AddGoodParamsType) => {
-  return request("/goods", "POST");
+  return request("/goods", "POST", goodParams);
+};
+
+/**
+ * 编辑商品接口
+ * @param goodParams
+ * @returns
+ */
+export const editGood = (goodParams: AddGoodParamsType) => {
+  return request("/goods", "PUT", goodParams);
 };

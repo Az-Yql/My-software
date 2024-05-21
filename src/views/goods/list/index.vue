@@ -181,7 +181,7 @@ initGoodList();
     </el-row>
 
     <!-- 新增与编辑弹窗 -->
-    <list-dialog ref="listDialogRef"></list-dialog>
+    <list-dialog ref="listDialogRef" @refresh="initGoodList"></list-dialog>
   </div>
 </template>
 

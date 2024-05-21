@@ -22,34 +22,34 @@
  *
  */
 
-// import router from "./router";
-// import { useAuthStore } from "./stores/auth";
-// const whiteList = ["/login"];
+import router from "./router";
+import { useAuthStore } from "./stores/auth";
+const whiteList = ["/login"];
 
-// router.beforeEach(async (to, from, next) => {
-//   const store = useAuthStore();
-//   const token = store.token;
+router.beforeEach(async (to, from, next) => {
+  const store = useAuthStore();
+  const token = store.token;
 
-//   if (token) {
-//     if (to.path === "/login") {
-//       return next({ path: from.path });
-//     } else {
-//       if (!store.user?.username || store.menuList.length <= 0) {
-//         const res = await store.getUserInfo();
-//         if (res?.data?.userInfo!.username) {
-//           return next();
-//         } else {
-//           return next("/login");
-//         }
-//       } else {
-//         return next();
-//       }
-//     }
-//   } else {
-//     if (whiteList.includes(to.path)) {
-//       return next();
-//     } else {
-//       next("/login");
-//     }
-//   }
-// });
+  if (token) {
+    if (to.path === "/login") {
+      return next({ path: from.path });
+    } else {
+      if (!store.user?.username || store.menuList.length <= 0) {
+        const res = await store.getUserInfo();
+        if (res?.data?.userInfo!.username) {
+          return next();
+        } else {
+          return next("/login");
+        }
+      } else {
+        return next();
+      }
+    }
+  } else {
+    if (whiteList.includes(to.path)) {
+      return next();
+    } else {
+      next("/login");
+    }
+  }
+});

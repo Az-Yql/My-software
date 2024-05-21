@@ -4,15 +4,10 @@ import request from "@/utils/request";
  * 文件上传
  * @returns
  */
-export const upload = () => {
-  return request(
-    "/system/media/upload/img",
-    "POST",
-    {},
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+export const upload = (data: any) => {
+  return request("/system/media/upload/img", "POST", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
